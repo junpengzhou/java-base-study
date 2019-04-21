@@ -48,7 +48,7 @@ public class CloneTest {
         person2.setName("李四");
         person3 = person1.clone();
         person3.setName("王五");
-        person1.getEmail().setContent("请与今天12:00到二会议室参加会议...");
+        person1.getEmail().setContent("请于今天12:00到二会议室参加会议...");
     }
 
     /* 浅拷贝只是Java提供的一种简单的拷贝机制，有些业务下不便于直接使用
@@ -61,7 +61,7 @@ public class CloneTest {
         person2.setName("李四");
         person3 = CloneUtils.clone(person1);
         person3.setName("王五");
-        person1.getEmail().setContent("请与今天12:00到二会议室参加会议...");
+        person1.getEmail().setContent("请于今天12:00到二会议室参加会议...");
     }
 
 }

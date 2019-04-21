@@ -27,15 +27,23 @@ public class CloneUtils {
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> T clone(T obj) {
         T cloneObj = null;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(baos);
-             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-             ObjectInputStream ois = new ObjectInputStream(bais)
-        ) {
-            // 分配内存,写入母对象到内存中
-            oos.writeObject(obj);
-            // 从内存中读取出并创建出一个新对象
+        ByteArrayOutputStream out = null;
+        ObjectOutputStream obs = null;
+        ByteArrayInputStream ios = null;
+        ObjectInputStream ois = null;
+        try {
+            //写入字节流
+            out = new ByteArrayOutputStream();
+            obs = new ObjectOutputStream(out);
+            obs.writeObject(obj);
+            obs.close();
+
+            //分配内存，写入原始对象，生成新对象
+            ios = new ByteArrayInputStream(out.toByteArray());
+            ois = new ObjectInputStream(ios);
+            //返回生成的新对象
             cloneObj = (T) ois.readObject();
+            ois.close();
         } catch (Exception e) {
             LOGGER.error("对象深复制出现异常", e);
         }
